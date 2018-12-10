@@ -379,6 +379,156 @@
 	</table>
 
 
+	<table name="h5_yun_xcx_matrix" engine="InnoDB" comment="矩阵渠道" charset="utf8" autoIncrementStartFrom="1"
+           enableUpdateTracking="false" enableLogicalDeletion="true" enableCache="false" isDict="true">
+        <columns>
+            <column name="matrix_id" type="int(10) unsigned" nullable="false" displayName="h5游戏id" displayType="text"/>
+            <column name="matrix_name" type="varchar(255)" nullable="false" displayName="矩阵名称" displayType="text"
+                    queryType="fuzzy"/>
+            <column name="wx_id" type="varchar(32)" nullable="false" displayName="小程序微信AppID" displayType="text"
+                    queryType="precise"/>
+            <column name="state" type="tinyint(1) unsigned" nullable="false" default="0" displayName="合作状态"
+                    displayType="text" queryType="precise"/>
+            <column name="jump_num" type="int(10) unsigned" nullable="false" default="0" displayName="跳转游戏数量"
+                    displayType="text"/>
+            <column name="ad_position_num" type="int(10) unsigned" nullable="false" default="0" displayName="广告位数量"
+                    displayType="text"/>
+        </columns>
+        <keys>
+            <key type="pk">
+                <column name="matrix_id"/>
+            </key>
+            <key type="uk">
+                <column name="wx_id"/>
+            </key>
+        </keys>
+    </table>
+    <table name="h5_yun_xcx_ad_position" engine="InnoDB" comment="小游戏渠道广告位" charset="utf8" autoIncrementStartFrom="1"
+           enableUpdateTracking="false" enableLogicalDeletion="true" enableCache="false">
+        <columns>
+            <column name="position_id" type="int(10) unsigned" nullable="false" extra="auto_increment"
+                    displayName="广告位id" displayType="text"/>
+            <column name="position_sn" type="int(10) unsigned" nullable="false" displayName="广告位序号" displayType="text"/>
+            <column name="matrix_id" type="int(10) unsigned" nullable="false" displayName="矩阵id" displayType="select"/>
+            <column name="position_name" type="varchar(32)" nullable="false" displayName="广告位名称" displayType="text"/>
+            <column name="type" type="tinyint(2) unsigned" nullable="false" default="1"
+                    displayName="广告位类型，1：静态icon，2：动态icon，3：静态banner，4：动态banner，5：视频" displayType="text"/>
+        </columns>
+        <keys>
+            <key type="pk">
+                <column name="position_id"/>
+            </key>
+            <key type="fk" name="fk_ad_matrix">
+                <column name="matrix_id" referencedTable="h5_yun_xcx_matrix" referencedColumn="matrix_id"/>
+            </key>
+        </keys>
+    </table>
+    <table name="h5_yun_xcx_jump_list" engine="InnoDB" comment="跳转小游戏名单" charset="utf8" autoIncrementStartFrom="1"
+           enableUpdateTracking="false" enableLogicalDeletion="true" enableCache="false" isDict="true">
+        <columns>
+            <column name="jump_id" type="int(10) unsigned" nullable="false" extra="auto_increment" displayName="跳转id"
+                    displayType="text"/>
+            <column name="matrix_id" type="int(10) unsigned" nullable="false" displayName="矩阵id" displayType="select"/>
+            <column name="jump_version" type="int(5)" nullable="false" displayName="版本" displayType="text"/>
+            <column name="jump_matrix_id" type="int(10) unsigned" nullable="false" displayName="跳转矩阵id"
+                    displayType="select"/>
+            <column name="is_deleted" type="tinyint(1)" nullable="false" default="0" displayName="是否废弃"
+                    displayType="text"/>
+        </columns>
+        <keys>
+            <key type="pk">
+                <column name="jump_id"/>
+            </key>
+            <key type="fk" name="fk_matrix">
+                <column name="matrix_id" referencedTable="h5_yun_xcx_matrix" referencedColumn="matrix_id"/>
+            </key>
+            <key type="fk" name="fk_jump_matrix">
+                <column name="jump_matrix_id" referencedTable="h5_yun_xcx_matrix" referencedColumn="matrix_id"/>
+            </key>
+        </keys>
+    </table>
+    <table name="h5_yun_xcx_pay_plat_setting" engine="InnoDB" comment="小游戏买量渠道" charset="utf8"
+           autoIncrementStartFrom="1"
+           enableUpdateTracking="false" enableLogicalDeletion="true" enableCache="false">
+        <columns>
+            <column name="setting_id" type="int(10) unsigned" nullable="false" extra="auto_increment"
+                    displayName="自增id" displayType="text"/>
+            <column name="plat_id" type="int(10)" nullable="false" displayName="渠道id" displayType="text"/>
+            <column name="jump_type" type="tinyint(1) unsigned" nullable="false" default="1"
+                    displayName="跳转类型，1：一直展示，2：仅直接跳转时不展示" displayType="text"/>
+            <column name="jump_limit" type="int(10) unsigned" nullable="false" displayName="跳转数量限制" displayType="text"/>
+        </columns>
+        <keys>
+            <key type="pk">
+                <column name="setting_id"/>
+            </key>
+        </keys>
+    </table>
+    <table name="h5_yun_xcx_matrix_ad" engine="InnoDB" comment="小游戏广告管理" charset="utf8"
+           autoIncrementStartFrom="1"
+           enableUpdateTracking="false" enableLogicalDeletion="true" enableCache="false" isDict="true">
+        <columns>
+            <column name="ad_id" type="int(10) unsigned" nullable="false" extra="auto_increment"
+                    displayName="自增id" displayType="text"/>
+            <column name="ad_name" type="varchar(32)" nullable="false" displayName="广告名称" displayType="text"
+                    queryType="fuzzy"/>
+            <column name="ad_type" type="tinyint(2) unsigned" nullable="false" default="1"
+                    displayName="广告类型，1：静态icon，2：动态icon，3：静态banner，4：动态banner，5：视频" displayType="text"/>
+            <column name="ad_put_matrix" type="int(10)" nullable="false" displayName="广告投放位置：游戏" displayType="select"/>
+            <column name="ad_put_position" type="int(10)" nullable="false" displayName="广告投放位置：广告位序号（广告位名称）"
+                    displayType="text"/>
+            <column name="ad_spread_version" type="int(5)" nullable="false" displayName="广告推广游戏：版本" displayType="text"/>
+            <column name="ad_spread_matrix" type="int(10)" nullable="false" displayName="广告推广跳转游戏"
+                    displayType="select"/>
+            <column name="ad_content" type="varchar(255)" nullable="false" displayName="广告内容" displayType="text"
+                    queryType="fuzzy"/>
+            <column name="ad_put_day_from" type="varchar(32)" nullable="false" displayName="广告投放开始日期"
+                    displayType="text"/>
+            <column name="ad_put_day_to" type="varchar(32)" nullable="false" displayName="广告投放结束日期" displayType="text"/>
+            <column name="ad_put_hour_from" type="varchar(32)" nullable="false" displayName="广告投放日中开始时间"
+                    displayType="text"/>
+            <column name="ad_put_hour_to" type="varchar(32)" nullable="false" displayName="广告投放日中结束时间"
+                    displayType="text"/>
+            <column name="ad_put_gender" type="tinyint(1) unsigned" nullable="false" default="0"
+                    displayName="广告投放性别，0：全部，1：男，2：女" displayType="text"/>
+            <column name="ad_put_os" type="tinyint(1) unsigned" nullable="false" default="0"
+                    displayName="广告投放操作系统，0：全部，1：Android，2：IOS" displayType="text"/>
+            <column name="ad_put_custom" type="tinyint(2) unsigned" nullable="false" default="0"
+                    displayName="广告投放自定义人群,默认0不开启,其余为人群1-10" displayType="text"/>
+        </columns>
+        <keys>
+            <key type="pk">
+                <column name="ad_id"/>
+            </key>
+            <key type="fk" name="fk_put_matrix">
+                <column name="ad_put_matrix" referencedTable="h5_yun_xcx_matrix" referencedColumn="matrix_id"/>
+            </key>
+            <key type="fk" name="fk_ad_spread_matrix">
+                <column name="ad_spread_matrix" referencedTable="h5_yun_xcx_jump_list"
+                        referencedColumn="jump_matrix_id"/>
+            </key>
+        </keys>
+    </table>
+    <table name="h5_yun_xcx_ad_put_plat" engine="InnoDB" comment="小游戏广告投放渠道" charset="utf8"
+           autoIncrementStartFrom="1"
+           enableUpdateTracking="false" enableLogicalDeletion="true" enableCache="false">
+        <columns>
+            <column name="id" type="int(10) unsigned" nullable="false" extra="auto_increment"
+                    displayName="自增id" displayType="text"/>
+            <column name="ad_id" type="int(10)" nullable="false" displayName="广告id" displayType="text"/>
+            <column name="plat_id" type="int(10)" nullable="false" displayName="渠道id" displayType="text"/>
+        </columns>
+        <keys>
+            <key type="pk">
+                <column name="id"/>
+            </key>
+            <key type="fk" name="fk_ad">
+                <column name="ad_id" referencedTable="h5_yun_xcx_matrix_ad" referencedColumn="ad_id"/>
+            </key>
+        </keys>
+    </table>
+
+
 	<!--权限管理开始//-->
 	<table name="power_user"  engine="InnoDB" comment="用户管理" charset="utf8" autoIncrementStartFrom="1" enableCache="false" isDict="true" group="权限管理">
 		<columns>
@@ -397,6 +547,9 @@
 		<keys>
 			<key type="pk">
 				<column name="power_user_id"/>
+			</key>
+			<key type="ak">
+				<column name="power_user_name"/>
 			</key>
 			<key type="fk" name="fk_user_role">
 				<column name="power_role_id" referencedTable="power_role" referencedColumn="power_role_id"/>

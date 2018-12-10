@@ -176,9 +176,7 @@ class RegularAction
     {
         $code = '
 	public function count() {
-		$sql = "SELECT count(*) FROM `'. $this->_tableName  . '`";
-			
-		return DB::select($sql);
+		return DB::table("'. $this->_tableName  . '")->count();
 	}
 	';
         

@@ -42,12 +42,21 @@ class CheckLogin
         if(empty($login_user)){
             $user['power_user_id'] = $user_id;
             $user['power_user_name'] = $power_user_name;
-            $user['truename'] = $truename;
+			$user['truename'] = $truename;
             $user['password'] = '******';
             $user['power_role_id'] = 1;
 			$user['created_time'] = $login_time;
 			$user['last_login_time'] = $login_time;
 			$user['login_count'] = 1;
+
+			//如果没有任何角色信息，则新用户自动拥有超管权限
+			$power_role_model = new PowerRoleModel();
+			$role_count = $power_role_model->count();
+			if ($role_count === 0) {
+				$user['is_root'] = 1;
+			}
+
+
             $power_user_model->insert($user);
 		}
 		elseif ($login_time > $login_user->last_login_time) {
@@ -69,7 +78,7 @@ class CheckLogin
 		}
 
 		global $envmark;	
-		if ($envmark == "development" || $login_user->is_root) {
+		if ($envmark == "development" || @$user['is_root'] || $login_user->is_root) {
 			$tree = Config("const.bar_tree");
 		}
 		else {

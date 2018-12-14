@@ -10,6 +10,12 @@
 | the IoC container for the system binding all of the various parts.
 |
 */
+//require 'vendor/autoload.php';
+use \LeanCloud\Client;
+// 参数依次为 AppId, AppKey, MasterKey
+Client::initialize("Ijo7J97Lu8xQbEn4g2ENMXje-gzGzoHsz", "SzmavvPfPE8bERMG8c5PdHEc", "X4wckDrl71e60FFHj6PuGdPz");
+Client::setServerUrl("https://ijo7j97l.api.lncld.net"); // 0.7.0 及以上版本支持
+Client::setDebug(true);
 
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')

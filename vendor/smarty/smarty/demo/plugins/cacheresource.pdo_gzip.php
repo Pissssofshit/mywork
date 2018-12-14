@@ -1,5 +1,4 @@
 <?php
-require_once 'cacheresource.pdo.php';
 
 /**
  * PDO Cache Handler with GZIP support
@@ -12,31 +11,33 @@ require_once 'cacheresource.pdo.php';
  * @require Smarty_CacheResource_Pdo class
  * @author  Beno!t POLASZEK - 2014
  */
+require_once 'cacheresource.pdo.php';
+
 class Smarty_CacheResource_Pdo_Gzip extends Smarty_CacheResource_Pdo
 {
-    /**
-     * Encodes the content before saving to database
-     *
-     * @param string $content
-     *
-     * @return string $content
-     * @access protected
+
+    /* 
+     * Encodes the content before saving to database 
+     * 
+     * @param string $content 
+     * @return string $content 
+     * @access protected 
      */
     protected function inputContent($content)
     {
         return gzdeflate($content);
     }
 
-    /**
-     * Decodes the content before saving to database
-     *
-     * @param string $content
-     *
-     * @return string $content
-     * @access protected
+    /* 
+     * Decodes the content before saving to database 
+     * 
+     * @param string $content 
+     * @return string $content 
+     * @access protected 
      */
     protected function outputContent($content)
     {
         return gzinflate($content);
     }
-}
+} 
+ 

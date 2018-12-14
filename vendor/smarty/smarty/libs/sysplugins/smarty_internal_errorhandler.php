@@ -3,6 +3,7 @@
 /**
  * Smarty error handler
  *
+ *
  * @package    Smarty
  * @subpackage PluginsInternal
  * @author     Uwe Tews
@@ -16,7 +17,6 @@ class Smarty_Internal_ErrorHandler
      * contains directories outside of SMARTY_DIR that are to be muted by muteExpectedErrors()
      */
     public static $mutedDirectories = array();
-
     /**
      * error handler returned by set_error_handler() in self::muteExpectedErrors()
      */
@@ -25,6 +25,7 @@ class Smarty_Internal_ErrorHandler
     /**
      * Enable error handler to mute expected messages
      *
+     * @return boolean
      */
     public static function muteExpectedErrors()
     {
@@ -57,11 +58,11 @@ class Smarty_Internal_ErrorHandler
      *
      * @link http://php.net/set_error_handler
      *
-     * @param integer $errno Error level
-     * @param         $errstr
-     * @param         $errfile
-     * @param         $errline
-     * @param         $errcontext
+     * @param  integer $errno Error level
+     * @param          $errstr
+     * @param          $errfile
+     * @param          $errline
+     * @param          $errcontext
      *
      * @return bool
      */
@@ -97,14 +98,12 @@ class Smarty_Internal_ErrorHandler
         // or the error was within smarty but masked to be ignored
         if (!$_is_muted_directory || ($errno && $errno & error_reporting())) {
             if (self::$previousErrorHandler) {
-                return call_user_func(
-                    self::$previousErrorHandler,
-                    $errno,
-                    $errstr,
-                    $errfile,
-                    $errline,
-                    $errcontext
-                );
+                return call_user_func(self::$previousErrorHandler,
+                                      $errno,
+                                      $errstr,
+                                      $errfile,
+                                      $errline,
+                                      $errcontext);
             } else {
                 return false;
             }

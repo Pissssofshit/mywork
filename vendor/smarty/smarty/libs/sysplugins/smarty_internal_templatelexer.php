@@ -18,117 +18,101 @@
  */
 class Smarty_Internal_Templatelexer
 {
-    const TEXT               = 1;
-    const TAG                = 2;
-    const TAGBODY            = 3;
-    const LITERAL            = 4;
+    const TEXT = 1;
+    const TAG = 2;
+    const TAGBODY = 3;
+    const LITERAL = 4;
     const DOUBLEQUOTEDSTRING = 5;
-
     /**
      * Source
      *
      * @var string
      */
     public $data;
-
     /**
      * Source length
      *
      * @var int
      */
     public $dataLength = null;
-
     /**
      * byte counter
      *
      * @var int
      */
     public $counter;
-
     /**
      * token number
      *
      * @var int
      */
     public $token;
-
     /**
      * token value
      *
      * @var string
      */
     public $value;
-
     /**
      * current line
      *
      * @var int
      */
     public $line;
-
     /**
      * tag start line
      *
      * @var
      */
     public $taglineno;
-
     /**
      * php code type
      *
      * @var string
      */
     public $phpType = '';
-
     /**
      * state number
      *
      * @var int
      */
     public $state = 1;
-
     /**
      * Smarty object
      *
      * @var Smarty
      */
     public $smarty = null;
-
     /**
      * compiler object
      *
      * @var Smarty_Internal_TemplateCompilerBase
      */
     public $compiler = null;
-
     /**
      * trace file
      *
      * @var resource
      */
     public $yyTraceFILE;
-
     /**
      * trace prompt
      *
      * @var string
      */
     public $yyTracePrompt;
-
     /**
      * XML flag true while processing xml
      *
      * @var bool
      */
     public $is_xml = false;
-
     /**
      * state names
      *
      * @var array
      */
     public $state_name = array(1 => 'TEXT', 2 => 'TAG', 3 => 'TAGBODY', 4 => 'LITERAL', 5 => 'DOUBLEQUOTEDSTRING',);
-
     /**
      * token names
      *
@@ -172,52 +156,44 @@ class Smarty_Internal_Templatelexer
                                                'TLOGOP'      => '"lt", "eq" ... logical operator; "is div by" ... if condition',
                                                'SCOND'       => '"is even" ... if condition',
     );
-
     /**
      * literal tag nesting level
      *
      * @var int
      */
     private $literal_cnt = 0;
-
     /**
      * preg token pattern for state TEXT
      *
      * @var string
      */
     private $yy_global_pattern1 = null;
-
     /**
      * preg token pattern for state TAG
      *
      * @var string
      */
     private $yy_global_pattern2 = null;
-
     /**
      * preg token pattern for state TAGBODY
      *
      * @var string
      */
     private $yy_global_pattern3 = null;
-
     /**
      * preg token pattern for state LITERAL
      *
      * @var string
      */
     private $yy_global_pattern4 = null;
-
     /**
      * preg token pattern for state DOUBLEQUOTEDSTRING
      *
      * @var null
      */
     private $yy_global_pattern5 = null;
-
-    private $_yy_state          = 1;
-
-    private $_yy_stack          = array();
+    private $_yy_state = 1;
+    private $_yy_stack = array();
 
     /**
      * constructor
@@ -225,7 +201,7 @@ class Smarty_Internal_Templatelexer
      * @param   string                             $source template source
      * @param Smarty_Internal_TemplateCompilerBase $compiler
      */
-    public function __construct($source, Smarty_Internal_TemplateCompilerBase $compiler)
+    function __construct($source, Smarty_Internal_TemplateCompilerBase $compiler)
     {
         $this->data = $source;
         $this->dataLength = strlen($this->data);
@@ -263,7 +239,7 @@ class Smarty_Internal_Templatelexer
         return $this->compiler->replaceDelimiter($preg);
     }
 
-    /**
+        /**
      * check if current value is an autoliteral left delimiter
      *
      * @return bool
@@ -282,27 +258,39 @@ class Smarty_Internal_Templatelexer
     public function yypushstate($state)
     {
         if ($this->yyTraceFILE) {
-            fprintf($this->yyTraceFILE, "%sState push %s\n", $this->yyTracePrompt,
-                isset($this->state_name[ $this->_yy_state ]) ? $this->state_name[ $this->_yy_state ] : $this->_yy_state);
+            fprintf($this->yyTraceFILE,
+                    "%sState push %s\n",
+                    $this->yyTracePrompt,
+                    isset($this->state_name[ $this->_yy_state ]) ? $this->state_name[ $this->_yy_state ] :
+                        $this->_yy_state);
         }
         array_push($this->_yy_stack, $this->_yy_state);
         $this->_yy_state = $state;
         if ($this->yyTraceFILE) {
-            fprintf($this->yyTraceFILE, "%snew State %s\n", $this->yyTracePrompt,
-                isset($this->state_name[ $this->_yy_state ]) ? $this->state_name[ $this->_yy_state ] : $this->_yy_state);
+            fprintf($this->yyTraceFILE,
+                    "%snew State %s\n",
+                    $this->yyTracePrompt,
+                    isset($this->state_name[ $this->_yy_state ]) ? $this->state_name[ $this->_yy_state ] :
+                        $this->_yy_state);
         }
     }
 
     public function yypopstate()
     {
         if ($this->yyTraceFILE) {
-            fprintf($this->yyTraceFILE, "%sState pop %s\n", $this->yyTracePrompt,
-                isset($this->state_name[ $this->_yy_state ]) ? $this->state_name[ $this->_yy_state ] : $this->_yy_state);
+            fprintf($this->yyTraceFILE,
+                    "%sState pop %s\n",
+                    $this->yyTracePrompt,
+                    isset($this->state_name[ $this->_yy_state ]) ? $this->state_name[ $this->_yy_state ] :
+                        $this->_yy_state);
         }
         $this->_yy_state = array_pop($this->_yy_stack);
         if ($this->yyTraceFILE) {
-            fprintf($this->yyTraceFILE, "%snew State %s\n", $this->yyTracePrompt,
-                isset($this->state_name[ $this->_yy_state ]) ? $this->state_name[ $this->_yy_state ] : $this->_yy_state);
+            fprintf($this->yyTraceFILE,
+                    "%snew State %s\n",
+                    $this->yyTracePrompt,
+                    isset($this->state_name[ $this->_yy_state ]) ? $this->state_name[ $this->_yy_state ] :
+                        $this->_yy_state);
         }
     }
 
@@ -310,12 +298,15 @@ class Smarty_Internal_Templatelexer
     {
         $this->_yy_state = $state;
         if ($this->yyTraceFILE) {
-            fprintf($this->yyTraceFILE, "%sState set %s\n", $this->yyTracePrompt,
-                isset($this->state_name[ $this->_yy_state ]) ? $this->state_name[ $this->_yy_state ] : $this->_yy_state);
+            fprintf($this->yyTraceFILE,
+                    "%sState set %s\n",
+                    $this->yyTracePrompt,
+                    isset($this->state_name[ $this->_yy_state ]) ? $this->state_name[ $this->_yy_state ] :
+                        $this->_yy_state);
         }
     }
 
-    public function yylex1()
+public function yylex1()
     {
         if (!isset($this->yy_global_pattern1)) {
             $this->yy_global_pattern1 =
@@ -336,11 +327,9 @@ class Smarty_Internal_Templatelexer
                 }
                 if (empty($yymatches)) {
                     throw new Exception('Error: lexing failed because a rule matched' .
-                                        ' an empty string.  Input "' . substr(
-                                            $this->data,
-                                            $this->counter,
-                                            5
-                                        ) . '... state TEXT');
+                                        ' an empty string.  Input "' . substr($this->data,
+                                                                              $this->counter,
+                                                                              5) . '... state TEXT');
                 }
                 next($yymatches); // skip global match
                 $this->token = key($yymatches); // token number
@@ -351,11 +340,11 @@ class Smarty_Internal_Templatelexer
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
-                } elseif ($r === true) {
+                } else if ($r === true) {
                     // we have changed state
                     // process this token in the new state
                     return $this->yylex();
-                } elseif ($r === false) {
+                } else if ($r === false) {
                     $this->counter += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
                     if ($this->counter >= $this->dataLength) {
@@ -372,15 +361,18 @@ class Smarty_Internal_Templatelexer
         } while (true);
     }
 
-    public function yy_r1_1()
+    function yy_r1_1()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TEXT;
     }
 
-    public function yy_r1_2()
+    function yy_r1_2()
     {
-        preg_match("/[*]{$this->compiler->getRdelPreg()}[\n]?/", $this->data, $match, PREG_OFFSET_CAPTURE,
-            $this->counter);
+        preg_match("/[*]{$this->compiler->getRdelPreg()}[\n]?/",
+                   $this->data,
+                   $match,
+                   PREG_OFFSET_CAPTURE,
+                   $this->counter);
         if (isset($match[ 0 ][ 1 ])) {
             $to = $match[ 0 ][ 1 ] + strlen($match[ 0 ][ 0 ]);
         } else {
@@ -390,45 +382,45 @@ class Smarty_Internal_Templatelexer
         return false;
     }
 
-    public function yy_r1_4()
+    function yy_r1_4()
     {
         $this->compiler->getTagCompiler('private_php')->parsePhp($this);
     }
 
-    public function yy_r1_8()
+    function yy_r1_8()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TEXT;
     }
 
-    public function yy_r1_10()
+    function yy_r1_10()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LITERALSTART;
         $this->yypushstate(self::LITERAL);
     }
 
-    public function yy_r1_12()
+        function yy_r1_12()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LITERALEND;
         $this->yypushstate(self::LITERAL);
     } // end function
 
-    public function yy_r1_14()
+    function yy_r1_14()
     {
         $this->yypushstate(self::TAG);
         return true;
     }
 
-    public function yy_r1_16()
+    function yy_r1_16()
     {
         $this->compiler->getTagCompiler('private_php')->parsePhp($this);
     }
 
-    public function yy_r1_19()
+    function yy_r1_19()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TEXT;
     }
 
-    public function yylex2()
+public function yylex2()
     {
         if (!isset($this->yy_global_pattern2)) {
             $this->yy_global_pattern2 =
@@ -449,11 +441,9 @@ class Smarty_Internal_Templatelexer
                 }
                 if (empty($yymatches)) {
                     throw new Exception('Error: lexing failed because a rule matched' .
-                                        ' an empty string.  Input "' . substr(
-                                            $this->data,
-                                            $this->counter,
-                                            5
-                                        ) . '... state TAG');
+                                        ' an empty string.  Input "' . substr($this->data,
+                                                                              $this->counter,
+                                                                              5) . '... state TAG');
                 }
                 next($yymatches); // skip global match
                 $this->token = key($yymatches); // token number
@@ -464,11 +454,11 @@ class Smarty_Internal_Templatelexer
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
-                } elseif ($r === true) {
+                } else if ($r === true) {
                     // we have changed state
                     // process this token in the new state
                     return $this->yylex();
-                } elseif ($r === false) {
+                } else if ($r === false) {
                     $this->counter += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
                     if ($this->counter >= $this->dataLength) {
@@ -485,63 +475,63 @@ class Smarty_Internal_Templatelexer
         } while (true);
     }
 
-    public function yy_r2_1()
+    function yy_r2_1()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LDELIF;
         $this->yybegin(self::TAGBODY);
         $this->taglineno = $this->line;
     }
 
-    public function yy_r2_4()
+    function yy_r2_4()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LDELFOR;
         $this->yybegin(self::TAGBODY);
         $this->taglineno = $this->line;
     }
 
-    public function yy_r2_6()
+    function yy_r2_6()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LDELFOREACH;
         $this->yybegin(self::TAGBODY);
         $this->taglineno = $this->line;
     }
 
-    public function yy_r2_8()
+    function yy_r2_8()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LDELSETFILTER;
         $this->yybegin(self::TAGBODY);
         $this->taglineno = $this->line;
     }
 
-    public function yy_r2_10()
+    function yy_r2_10()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LDELMAKENOCACHE;
         $this->yybegin(self::TAGBODY);
         $this->taglineno = $this->line;
     }
 
-    public function yy_r2_12()
+    function yy_r2_12()
     {
         $this->yypopstate();
         $this->token = Smarty_Internal_Templateparser::TP_SIMPLETAG;
         $this->taglineno = $this->line;
     }
 
-    public function yy_r2_15()
+    function yy_r2_15()
     {
         $this->yypopstate();
         $this->token = Smarty_Internal_Templateparser::TP_SMARTYBLOCKCHILDPARENT;
         $this->taglineno = $this->line;
     }
 
-    public function yy_r2_18()
+    function yy_r2_18()
     {
         $this->yypopstate();
         $this->token = Smarty_Internal_Templateparser::TP_CLOSETAG;
         $this->taglineno = $this->line;
     }
 
-    public function yy_r2_20()
+        function yy_r2_20()
     {
         if ($this->_yy_stack[ count($this->_yy_stack) - 1 ] === self::TEXT) {
             $this->yypopstate();
@@ -555,21 +545,21 @@ class Smarty_Internal_Templatelexer
         }
     } // end function
 
-    public function yy_r2_23()
+    function yy_r2_23()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LDELSLASH;
         $this->yybegin(self::TAGBODY);
         $this->taglineno = $this->line;
     }
 
-    public function yy_r2_25()
+    function yy_r2_25()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LDEL;
         $this->yybegin(self::TAGBODY);
         $this->taglineno = $this->line;
     }
 
-    public function yylex3()
+public function yylex3()
     {
         if (!isset($this->yy_global_pattern3)) {
             $this->yy_global_pattern3 =
@@ -590,11 +580,9 @@ class Smarty_Internal_Templatelexer
                 }
                 if (empty($yymatches)) {
                     throw new Exception('Error: lexing failed because a rule matched' .
-                                        ' an empty string.  Input "' . substr(
-                                            $this->data,
-                                            $this->counter,
-                                            5
-                                        ) . '... state TAGBODY');
+                                        ' an empty string.  Input "' . substr($this->data,
+                                                                              $this->counter,
+                                                                              5) . '... state TAGBODY');
                 }
                 next($yymatches); // skip global match
                 $this->token = key($yymatches); // token number
@@ -605,11 +593,11 @@ class Smarty_Internal_Templatelexer
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
-                } elseif ($r === true) {
+                } else if ($r === true) {
                     // we have changed state
                     // process this token in the new state
                     return $this->yylex();
-                } elseif ($r === false) {
+                } else if ($r === false) {
                     $this->counter += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
                     if ($this->counter >= $this->dataLength) {
@@ -626,156 +614,156 @@ class Smarty_Internal_Templatelexer
         } while (true);
     }
 
-    public function yy_r3_1()
+    function yy_r3_1()
     {
         $this->token = Smarty_Internal_Templateparser::TP_RDEL;
         $this->yypopstate();
     }
 
-    public function yy_r3_2()
+    function yy_r3_2()
     {
         $this->yypushstate(self::TAG);
         return true;
     }
 
-    public function yy_r3_4()
+    function yy_r3_4()
     {
         $this->token = Smarty_Internal_Templateparser::TP_QUOTE;
         $this->yypushstate(self::DOUBLEQUOTEDSTRING);
         $this->compiler->enterDoubleQuote();
     }
 
-    public function yy_r3_5()
+    function yy_r3_5()
     {
         $this->token = Smarty_Internal_Templateparser::TP_SINGLEQUOTESTRING;
     }
 
-    public function yy_r3_6()
+    function yy_r3_6()
     {
         $this->token = Smarty_Internal_Templateparser::TP_DOLLARID;
     }
 
-    public function yy_r3_7()
+    function yy_r3_7()
     {
         $this->token = Smarty_Internal_Templateparser::TP_DOLLAR;
     }
 
-    public function yy_r3_8()
+    function yy_r3_8()
     {
         $this->token = Smarty_Internal_Templateparser::TP_ISIN;
     }
 
-    public function yy_r3_9()
+    function yy_r3_9()
     {
         $this->token = Smarty_Internal_Templateparser::TP_AS;
     }
 
-    public function yy_r3_10()
+    function yy_r3_10()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TO;
     }
 
-    public function yy_r3_11()
+    function yy_r3_11()
     {
         $this->token = Smarty_Internal_Templateparser::TP_STEP;
     }
 
-    public function yy_r3_12()
+    function yy_r3_12()
     {
         $this->token = Smarty_Internal_Templateparser::TP_INSTANCEOF;
     }
 
-    public function yy_r3_13()
+    function yy_r3_13()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LOGOP;
     }
 
-    public function yy_r3_15()
+    function yy_r3_15()
     {
         $this->token = Smarty_Internal_Templateparser::TP_SLOGOP;
     }
 
-    public function yy_r3_17()
+    function yy_r3_17()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TLOGOP;
     }
 
-    public function yy_r3_20()
+    function yy_r3_20()
     {
         $this->token = Smarty_Internal_Templateparser::TP_SINGLECOND;
     }
 
-    public function yy_r3_23()
+    function yy_r3_23()
     {
         $this->token = Smarty_Internal_Templateparser::TP_NOT;
     }
 
-    public function yy_r3_24()
+    function yy_r3_24()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TYPECAST;
     }
 
-    public function yy_r3_28()
+    function yy_r3_28()
     {
         $this->token = Smarty_Internal_Templateparser::TP_OPENP;
     }
 
-    public function yy_r3_29()
+    function yy_r3_29()
     {
         $this->token = Smarty_Internal_Templateparser::TP_CLOSEP;
     }
 
-    public function yy_r3_30()
+    function yy_r3_30()
     {
         $this->token = Smarty_Internal_Templateparser::TP_OPENB;
     }
 
-    public function yy_r3_31()
+    function yy_r3_31()
     {
         $this->token = Smarty_Internal_Templateparser::TP_CLOSEB;
     }
 
-    public function yy_r3_32()
+    function yy_r3_32()
     {
         $this->token = Smarty_Internal_Templateparser::TP_PTR;
     }
 
-    public function yy_r3_33()
+    function yy_r3_33()
     {
         $this->token = Smarty_Internal_Templateparser::TP_APTR;
     }
 
-    public function yy_r3_34()
+    function yy_r3_34()
     {
         $this->token = Smarty_Internal_Templateparser::TP_EQUAL;
     }
 
-    public function yy_r3_35()
+    function yy_r3_35()
     {
         $this->token = Smarty_Internal_Templateparser::TP_INCDEC;
     }
 
-    public function yy_r3_37()
+    function yy_r3_37()
     {
         $this->token = Smarty_Internal_Templateparser::TP_UNIMATH;
     }
 
-    public function yy_r3_39()
+    function yy_r3_39()
     {
         $this->token = Smarty_Internal_Templateparser::TP_MATH;
     }
 
-    public function yy_r3_41()
+    function yy_r3_41()
     {
         $this->token = Smarty_Internal_Templateparser::TP_AT;
     }
 
-    public function yy_r3_42()
+    function yy_r3_42()
     {
         $this->token = Smarty_Internal_Templateparser::TP_HATCH;
     }
 
-    public function yy_r3_43()
+    function yy_r3_43()
     {
         // resolve conflicts with shorttag and right_delimiter starting with '='
         if (substr($this->data, $this->counter + strlen($this->value) - 1, $this->compiler->getRdelLength()) ===
@@ -788,78 +776,78 @@ class Smarty_Internal_Templatelexer
         }
     }
 
-    public function yy_r3_44()
+    function yy_r3_44()
     {
         $this->token = Smarty_Internal_Templateparser::TP_NAMESPACE;
     }
 
-    public function yy_r3_47()
+    function yy_r3_47()
     {
         $this->token = Smarty_Internal_Templateparser::TP_ID;
     }
 
-    public function yy_r3_48()
+    function yy_r3_48()
     {
         $this->token = Smarty_Internal_Templateparser::TP_INTEGER;
     }
 
-    public function yy_r3_49()
+    function yy_r3_49()
     {
         $this->token = Smarty_Internal_Templateparser::TP_BACKTICK;
         $this->yypopstate();
     }
 
-    public function yy_r3_50()
+    function yy_r3_50()
     {
         $this->token = Smarty_Internal_Templateparser::TP_VERT;
     }
 
-    public function yy_r3_51()
+    function yy_r3_51()
     {
         $this->token = Smarty_Internal_Templateparser::TP_DOT;
     }
 
-    public function yy_r3_52()
+    function yy_r3_52()
     {
         $this->token = Smarty_Internal_Templateparser::TP_COMMA;
     }
 
-    public function yy_r3_53()
+    function yy_r3_53()
     {
         $this->token = Smarty_Internal_Templateparser::TP_SEMICOLON;
     }
 
-    public function yy_r3_54()
+    function yy_r3_54()
     {
         $this->token = Smarty_Internal_Templateparser::TP_DOUBLECOLON;
     }
 
-    public function yy_r3_55()
+    function yy_r3_55()
     {
         $this->token = Smarty_Internal_Templateparser::TP_COLON;
     }
 
-    public function yy_r3_56()
+    function yy_r3_56()
     {
         $this->token = Smarty_Internal_Templateparser::TP_QMARK;
     }
 
-    public function yy_r3_57()
+    function yy_r3_57()
     {
         $this->token = Smarty_Internal_Templateparser::TP_HEX;
     }
 
-    public function yy_r3_58()
+        function yy_r3_58()
     {
         $this->token = Smarty_Internal_Templateparser::TP_SPACE;
     } // end function
 
-    public function yy_r3_59()
+    function yy_r3_59()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TEXT;
     }
 
-    public function yylex4()
+public function yylex4()
     {
         if (!isset($this->yy_global_pattern4)) {
             $this->yy_global_pattern4 =
@@ -880,11 +868,9 @@ class Smarty_Internal_Templatelexer
                 }
                 if (empty($yymatches)) {
                     throw new Exception('Error: lexing failed because a rule matched' .
-                                        ' an empty string.  Input "' . substr(
-                                            $this->data,
-                                            $this->counter,
-                                            5
-                                        ) . '... state LITERAL');
+                                        ' an empty string.  Input "' . substr($this->data,
+                                                                              $this->counter,
+                                                                              5) . '... state LITERAL');
                 }
                 next($yymatches); // skip global match
                 $this->token = key($yymatches); // token number
@@ -895,11 +881,11 @@ class Smarty_Internal_Templatelexer
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
-                } elseif ($r === true) {
+                } else if ($r === true) {
                     // we have changed state
                     // process this token in the new state
                     return $this->yylex();
-                } elseif ($r === false) {
+                } else if ($r === false) {
                     $this->counter += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
                     if ($this->counter >= $this->dataLength) {
@@ -916,13 +902,13 @@ class Smarty_Internal_Templatelexer
         } while (true);
     }
 
-    public function yy_r4_1()
+    function yy_r4_1()
     {
         $this->literal_cnt++;
         $this->token = Smarty_Internal_Templateparser::TP_LITERAL;
     }
 
-    public function yy_r4_3()
+    function yy_r4_3()
     {
         if ($this->literal_cnt) {
             $this->literal_cnt--;
@@ -933,12 +919,12 @@ class Smarty_Internal_Templatelexer
         }
     }
 
-    public function yy_r4_5()
+        function yy_r4_5()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LITERAL;
     } // end function
 
-    public function yylex5()
+public function yylex5()
     {
         if (!isset($this->yy_global_pattern5)) {
             $this->yy_global_pattern5 =
@@ -959,11 +945,9 @@ class Smarty_Internal_Templatelexer
                 }
                 if (empty($yymatches)) {
                     throw new Exception('Error: lexing failed because a rule matched' .
-                                        ' an empty string.  Input "' . substr(
-                                            $this->data,
-                                            $this->counter,
-                                            5
-                                        ) . '... state DOUBLEQUOTEDSTRING');
+                                        ' an empty string.  Input "' . substr($this->data,
+                                                                              $this->counter,
+                                                                              5) . '... state DOUBLEQUOTEDSTRING');
                 }
                 next($yymatches); // skip global match
                 $this->token = key($yymatches); // token number
@@ -974,11 +958,11 @@ class Smarty_Internal_Templatelexer
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
-                } elseif ($r === true) {
+                } else if ($r === true) {
                     // we have changed state
                     // process this token in the new state
                     return $this->yylex();
-                } elseif ($r === false) {
+                } else if ($r === false) {
                     $this->counter += strlen($this->value);
                     $this->line += substr_count($this->value, "\n");
                     if ($this->counter >= $this->dataLength) {
@@ -995,47 +979,47 @@ class Smarty_Internal_Templatelexer
         } while (true);
     }
 
-    public function yy_r5_1()
+    function yy_r5_1()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TEXT;
     }
 
-    public function yy_r5_3()
+    function yy_r5_3()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TEXT;
     }
 
-    public function yy_r5_5()
+    function yy_r5_5()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TEXT;
     }
 
-    public function yy_r5_7()
+    function yy_r5_7()
     {
         $this->yypushstate(self::TAG);
         return true;
     }
 
-    public function yy_r5_9()
+    function yy_r5_9()
     {
         $this->yypushstate(self::TAG);
         return true;
     }
 
-    public function yy_r5_11()
+    function yy_r5_11()
     {
         $this->token = Smarty_Internal_Templateparser::TP_LDEL;
         $this->taglineno = $this->line;
         $this->yypushstate(self::TAGBODY);
     }
 
-    public function yy_r5_13()
+    function yy_r5_13()
     {
         $this->token = Smarty_Internal_Templateparser::TP_QUOTE;
         $this->yypopstate();
     }
 
-    public function yy_r5_14()
+    function yy_r5_14()
     {
         $this->token = Smarty_Internal_Templateparser::TP_BACKTICK;
         $this->value = substr($this->value, 0, -1);
@@ -1043,18 +1027,20 @@ class Smarty_Internal_Templatelexer
         $this->taglineno = $this->line;
     }
 
-    public function yy_r5_15()
+    function yy_r5_15()
     {
         $this->token = Smarty_Internal_Templateparser::TP_DOLLARID;
     }
 
-    public function yy_r5_16()
+    function yy_r5_16()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TEXT;
     }
 
-    public function yy_r5_17()
+    function yy_r5_17()
     {
         $this->token = Smarty_Internal_Templateparser::TP_TEXT;
     }
 }
+
+     

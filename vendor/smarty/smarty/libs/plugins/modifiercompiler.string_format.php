@@ -5,6 +5,7 @@
  * @package    Smarty
  * @subpackage PluginsModifierCompiler
  */
+
 /**
  * Smarty string_format modifier plugin
  * Type:     modifier

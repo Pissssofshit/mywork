@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76589a480cdd81e1d5c0256876a235f3",
+    "content-hash": "172bd093a2261a9558d38f91d8e8ac41",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -738,6 +738,82 @@
                 "storage"
             ],
             "time": "2018-05-07T08:44:23+00:00"
+        },
+        {
+            "name": "leancloud/leancloud-sdk",
+            "version": "v0.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leancloud/php-sdk.git",
+                "reference": "dad11751b427ec84c4032e4036dc241174df4a4f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/leancloud/php-sdk/zipball/dad11751b427ec84c4032e4036dc241174df4a4f",
+                "reference": "dad11751b427ec84c4032e4036dc241174df4a4f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "apigen/apigen": "^4.1",
+                "doctrine/instantiator": "<1.1.0",
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LeanCloud\\": "src/LeanCloud"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Juvenn Woo",
+                    "email": "yun.wu@leancloud.rocks"
+                }
+            ],
+            "description": "LeanCloud PHP SDK",
+            "homepage": "https://github.com/leancloud/php-sdk",
+            "keywords": [
+                "leancloud"
+            ],
+            "time": "2018-09-25T06:29:17+00:00"
+        },
+        {
+            "name": "mjutech/netdata",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.mjutech.com/vendor/netdata.git",
+                "reference": "ef45bc37f9a266af20f5de7f1bb45b0e98bc3540"
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NetData\\": "src/",
+                    "NetData\\Lib\\": "src/Lib"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Garming Lau",
+                    "email": "liujiaming@joyport.com"
+                }
+            ],
+            "description": "socket connect to C++ servers library",
+            "keywords": [
+                "socket"
+            ],
+            "time": "2018-10-23T09:47:06+00:00"
         },
         {
             "name": "monolog/monolog",

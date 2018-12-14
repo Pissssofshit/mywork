@@ -2,9 +2,7 @@
     "name": "smarty/smarty",
     "type": "library",
     "description": "Smarty - the compiling PHP template engine",
-    "keywords": [
-        "templating"
-    ],
+    "keywords": ["templating"],
     "homepage": "http://www.smarty.net",
     "license": "LGPL-3.0",
     "authors": [
@@ -30,13 +28,12 @@
         "php": ">=5.2"
     },
     "autoload": {
-        "files": [
-            "libs/bootstrap.php"
-        ]
+            "files": ["libs/bootstrap.php"]
     },
     "extra": {
         "branch-alias": {
             "dev-master": "3.1.x-dev"
         }
     }
+
 }

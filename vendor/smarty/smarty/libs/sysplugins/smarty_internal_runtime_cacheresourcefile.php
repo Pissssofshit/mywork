@@ -6,7 +6,6 @@
  * @subpackage PluginsInternal
  * @author     Uwe Tews
  */
-
 /**
  * Smarty Internal Runtime Cache Resource File Class
  *
@@ -42,7 +41,7 @@ class Smarty_Internal_Runtime_CacheResourceFile
             $_cache_id_parts_count = count($_cache_id_parts);
             if ($smarty->use_sub_dirs) {
                 foreach ($_cache_id_parts as $id_part) {
-                    $_dir .= $id_part . '/';
+                    $_dir .= $id_part . DIRECTORY_SEPARATOR;
                 }
             }
         }
@@ -89,8 +88,8 @@ class Smarty_Internal_Runtime_CacheResourceFile
                         }
                     }
                     // check compile id
-                    if (isset($_compile_id) && (!isset($_parts[ $_parts_count - 2 - $_compile_id_offset ])
-                                                || $_parts[ $_parts_count - 2 - $_compile_id_offset ] !== $_compile_id)
+                    if (isset($_compile_id) && (!isset($_parts[ $_parts_count - 2 - $_compile_id_offset ]) ||
+                                                $_parts[ $_parts_count - 2 - $_compile_id_offset ] !== $_compile_id)
                     ) {
                         continue;
                     }
@@ -127,7 +126,7 @@ class Smarty_Internal_Runtime_CacheResourceFile
                             && (!function_exists('ini_get') || strlen(ini_get("opcache.restrict_api")) < 1)
                         ) {
                             opcache_invalidate($_filepath, true);
-                        } elseif (function_exists('apc_delete_file')) {
+                        } else if (function_exists('apc_delete_file')) {
                             apc_delete_file($_filepath);
                         }
                     }

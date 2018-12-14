@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Smarty Method CompileAllTemplates
  *
@@ -21,23 +20,22 @@ class Smarty_Internal_Method_CompileAllTemplates
     /**
      * Compile all template files
      *
-     * @api Smarty::compileAllTemplates()
+     * @api  Smarty::compileAllTemplates()
      *
      * @param \Smarty $smarty        passed smarty object
-     * @param string  $extension     file extension
-     * @param bool    $force_compile force all to recompile
-     * @param int     $time_limit
-     * @param int     $max_errors
+     * @param  string $extension     file extension
+     * @param  bool   $force_compile force all to recompile
+     * @param  int    $time_limit
+     * @param  int    $max_errors
      *
      * @return integer number of template files recompiled
      */
-    public function compileAllTemplates(
-        Smarty $smarty,
-        $extension = '.tpl',
-        $force_compile = false,
-        $time_limit = 0,
-        $max_errors = null
-    ) {
+    public function compileAllTemplates(Smarty $smarty,
+                                        $extension = '.tpl',
+                                        $force_compile = false,
+                                        $time_limit = 0,
+                                        $max_errors = null)
+    {
         return $this->compileAll($smarty, $extension, $force_compile, $time_limit, $max_errors);
     }
 
@@ -45,22 +43,21 @@ class Smarty_Internal_Method_CompileAllTemplates
      * Compile all template or config files
      *
      * @param \Smarty $smarty
-     * @param string  $extension     template file name extension
-     * @param bool    $force_compile force all to recompile
-     * @param int     $time_limit    set maximum execution time
-     * @param int     $max_errors    set maximum allowed errors
+     * @param  string $extension     template file name extension
+     * @param  bool   $force_compile force all to recompile
+     * @param  int    $time_limit    set maximum execution time
+     * @param  int    $max_errors    set maximum allowed errors
      * @param bool    $isConfig      flag true if called for config files
      *
      * @return int number of template files compiled
      */
-    protected function compileAll(
-        Smarty $smarty,
-        $extension,
-        $force_compile,
-        $time_limit,
-        $max_errors,
-        $isConfig = false
-    ) {
+    protected function compileAll(Smarty $smarty,
+                                  $extension,
+                                  $force_compile,
+                                  $time_limit,
+                                  $max_errors,
+                                  $isConfig = false)
+    {
         // switch off time limit
         if (function_exists('set_time_limit')) {
             @set_time_limit($time_limit);
@@ -70,18 +67,15 @@ class Smarty_Internal_Method_CompileAllTemplates
         $sourceDir = $isConfig ? $smarty->getConfigDir() : $smarty->getTemplateDir();
         // loop over array of source directories
         foreach ($sourceDir as $_dir) {
-            $_dir_1 = new RecursiveDirectoryIterator(
-                $_dir,
-                defined('FilesystemIterator::FOLLOW_SYMLINKS') ?
-                    FilesystemIterator::FOLLOW_SYMLINKS : 0
-            );
+            $_dir_1 = new RecursiveDirectoryIterator($_dir, defined('FilesystemIterator::FOLLOW_SYMLINKS') ?
+                FilesystemIterator::FOLLOW_SYMLINKS : 0);
             $_dir_2 = new RecursiveIteratorIterator($_dir_1);
             foreach ($_dir_2 as $_fileinfo) {
                 $_file = $_fileinfo->getFilename();
                 if (substr(basename($_fileinfo->getPathname()), 0, 1) === '.' || strpos($_file, '.svn') !== false) {
                     continue;
                 }
-                if (substr_compare($_file, $extension, -strlen($extension)) !== 0) {
+                if (!substr_compare($_file, $extension, -strlen($extension)) === 0) {
                     continue;
                 }
                 if ($_fileinfo->getPath() !== substr($_dir, 0, -1)) {
@@ -111,7 +105,8 @@ class Smarty_Internal_Method_CompileAllTemplates
                         echo ' is up to date';
                         flush();
                     }
-                } catch (Exception $e) {
+                }
+                catch (Exception $e) {
                     echo "\n<br>        ------>Error: ", $e->getMessage(), "<br><br>\n";
                     $_error_count++;
                 }

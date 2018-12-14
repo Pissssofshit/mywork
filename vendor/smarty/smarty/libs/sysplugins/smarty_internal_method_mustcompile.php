@@ -45,6 +45,7 @@ class Smarty_Internal_Method_MustCompile
                                                                           $_template->compiled->getTimeStamp() <
                                                                           $_template->source->getTimeStamp())));
         }
+
         return $_template->mustCompile;
     }
 }

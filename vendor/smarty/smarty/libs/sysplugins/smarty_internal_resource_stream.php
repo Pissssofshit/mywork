@@ -26,6 +26,7 @@ class Smarty_Internal_Resource_Stream extends Smarty_Resource_Recompiled
      * @param Smarty_Internal_Template $_template template object
      *
      * @return void
+     * @throws \SmartyException
      */
     public function populate(Smarty_Template_Source $source, Smarty_Internal_Template $_template = null)
     {
@@ -45,6 +46,7 @@ class Smarty_Internal_Resource_Stream extends Smarty_Resource_Recompiled
      * @param Smarty_Template_Source $source source object
      *
      * @return string template source
+     * @throws SmartyException if source cannot be loaded
      */
     public function getContent(Smarty_Template_Source $source)
     {
@@ -56,6 +58,7 @@ class Smarty_Internal_Resource_Stream extends Smarty_Resource_Recompiled
                 $t .= $current_line;
             }
             fclose($fp);
+
             return $t;
         } else {
             return false;
@@ -65,9 +68,9 @@ class Smarty_Internal_Resource_Stream extends Smarty_Resource_Recompiled
     /**
      * modify resource_name according to resource handlers specifications
      *
-     * @param Smarty  $smarty        Smarty instance
-     * @param string  $resource_name resource_name to make unique
-     * @param boolean $isConfig      flag for config resource
+     * @param Smarty   $smarty        Smarty instance
+     * @param string   $resource_name resource_name to make unique
+     * @param  boolean $isConfig      flag for config resource
      *
      * @return string unique resource name
      */
